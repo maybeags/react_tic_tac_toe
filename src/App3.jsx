@@ -4,27 +4,10 @@ import GameBoard from "./components/GameBoard"
 import Log from "./components/Log";
 
 function App() {
-  const [ gameTurns, setGameTurns ] = useState([]);
-
   const [ activePlayer, setActivePlayer ] = useState('X');
 
-  function handleSelectSquare(rowIndex, colIndex) {
+  function handleSelectSquare() {
     setActivePlayer((curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X');
-    setGameTurns(prevTurns => {
-      let currentPlayer = 'X';
-
-      if(prevTurns.length > 0 && prevTurns[0].player === 'X') {
-        currentPlayer = 'O';
-      }
-      
-
-      const updatedTurns = [
-        { square: { row: rowIndex, col: colIndex }, player: activePlayer },
-        ...prevTurns,
-      ];
-
-      return updatedTurns;
-    });
   }
   
   return <main>
@@ -41,3 +24,19 @@ function App() {
 }
 
 export default App
+/**
+ * 
+ * Lifting State Up
+ * 
+ * Lift the state up to the closest ancestor component that has access to all components that need to work with that state.
+ *                                  manage
+ *              Ancestor Component -----> State : State value that's needeed by both Child 1 & Child 2
+*                       |
+*           --------------------------
+*           |                         |
+*        Child1                      Child2
+*
+*     Ancestor passes the state / a function that eventually changes the state via props to the child component
+
+      this allows the child component to initiate the state change.
+ */
